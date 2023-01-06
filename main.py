@@ -11,6 +11,8 @@ cnx = mysql.connector.connect(
 )
 
 cursor = cnx.cursor()
+cursor.execute("DROP TABLE IF EXISTS population, athlete, event, olympic_info, olympic_events, results")
+cursor.execute("CREATE TABLE IF NOT EXISTS population (country VARCHAR(255) PRIMARY KEY, population VARCHAR(255))")
 
 # First, create a table for population per country with country name as primary key
 cursor.execute("CREATE TABLE IF NOT EXISTS population (country VARCHAR(255) PRIMARY KEY, population VARCHAR(255))")
