@@ -1,13 +1,30 @@
 import mysql.connector
+import csv 
 
-mydb = mysql.connector.connect(
+cnx = mysql.connector.connect(
   host="mysqlsrv1.cs.tau.ac.il",
   port="3306",
   user="levtzur",
   password="levtzu2709",
-  database='levtzr'
+  database='levtzur'
 )
 
-cursor = mydb.cursor()
-cursor.execute("CREATE TABLE population (Country VARCHAR(255), Population VARCHAR(255))")
+cursor = cnx.cursor()
+cursor.execute("CREATE TABLE population (country VARCHAR(255) PRIMARY KEY, population VARCHAR(255))")
 
+with open('population_by_country.csv', 'r') as file:
+    reader = csv.DictReader(file)
+    
+    # Iterate through the rows of the CSV
+    for row in reader:
+        country = row['country']
+        population = row['population']
+        
+        # Insert the data into the MySQL table
+        cursor.execute('INSERT INTO table (country, population) VALUES (%s, %s)', (country, population))
+
+# Commit the changes to the database
+cnx.commit()
+
+# Close the connection to the database
+cnx.close()
