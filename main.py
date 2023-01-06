@@ -28,8 +28,9 @@ with open('population_by_country.csv', 'r') as file:
 
 
 # Now, create a four different tables from the athele_events csv table
-cursor.execute("CREATE TABLE IF NOT EXISTS athlete (athlete_id VARCHAR(255) PRIMARY KEY, name VARCHAR(255), \
-                height VARCHAR(255), weight VARCHAR(255), age VARCHAR(255), sex VARCHAR(255), country VARCHAR(255))")
+cursor.execute("CREATE TABLE IF NOT EXISTS athlete (athlete_id VARCHAR(255), olympics_game VARCHAR(255), name VARCHAR(255), \
+                height VARCHAR(255), weight VARCHAR(255), age VARCHAR(255), \
+                    sex VARCHAR(255), country VARCHAR(255), PRIMARY KEY (athlete_id, olympics_game))")
 
 cursor.execute("CREATE TABLE IF NOT EXISTS event (olympics_game VARCHAR(255), event VARCHAR(255), \
                 sport VARCHAR(255), PRIMARY KEY (olympics_game, event))")
@@ -64,7 +65,7 @@ with open('athlete_events.csv', 'r') as file:
 
         
         # Insert the data into the MySQL table
-        cursor.execute('INSERT INTO athlete (athlete_id, name, height, weight, age, sex, country) VALUES (%s, %s, %s, %s, %s, %s, %s)', (athlete_id, name, height, weight, age, sex, country))
+        cursor.execute('INSERT INTO athlete (athlete_id, olympics_game, name, height, weight, age, sex, country) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (athlete_id, olympics_game, name, height, weight, age, sex, country))
         cursor.execute('INSERT INTO event (olympics_game, event, sport) VALUES (%s, %s, %s)', (olympics_game, event, sport))
         cursor.execute('INSERT INTO olympic_info (olympics_game, season, year, city) VALUES (%s, %s, %s, %s)', (olympics_game, season, year, city))
         cursor.execute('INSERT INTO olympic_events (olympics_game, event) VALUES (%s, %s)', (olympics_game, event))
