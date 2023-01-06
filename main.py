@@ -10,7 +10,7 @@ cnx = mysql.connector.connect(
 )
 
 cursor = cnx.cursor()
-cursor.execute("CREATE TABLE IF EXISTS population (country VARCHAR(255) PRIMARY KEY, population VARCHAR(255))")
+cursor.execute("CREATE TABLE [IF NOT EXISTS] population (country VARCHAR(255) PRIMARY KEY, population VARCHAR(255))")
 
 with open('population_by_country.csv', 'r') as file:
     reader = csv.DictReader(file)
