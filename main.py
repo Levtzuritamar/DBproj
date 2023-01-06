@@ -17,8 +17,8 @@ with open('population_by_country.csv', 'r') as file:
     
     # Iterate through the rows of the CSV
     for row in reader:
-        country = row['country']
-        population = row['population']
+        country = row['Country_name']
+        population = row['Population']
         
         # Insert the data into the MySQL table
         cursor.execute('INSERT INTO table (country, population) VALUES (%s, %s)', (country, population))
