@@ -31,8 +31,8 @@ with open('population_by_country.csv', 'r') as file:
 cursor.execute("CREATE TABLE IF NOT EXISTS athlete (athlete_id VARCHAR(255) PRIMARY KEY, name VARCHAR(255), \
                 height VARCHAR(255), weight VARCHAR(255), age VARCHAR(255), sex VARCHAR(255), country VARCHAR(255))")
 
-cursor.execute("CREATE TABLE IF NOT EXISTS event (olympics_game VARCHAR(255), event_name VARCHAR(255), \
-                sport VARCHAR(255), PRIMARY KEY ('olympics_game', 'event_name'))")
+cursor.execute("CREATE TABLE IF NOT EXISTS event (olympics_game VARCHAR(255), event VARCHAR(255), \
+                sport VARCHAR(255), PRIMARY KEY (olympics_game, event))")
 
 cursor.execute("CREATE TABLE IF NOT EXISTS olympic_info (olympics_game VARCHAR(255) PRIMARY KEY, season VARCHAR(255), \
                 year VARCHAR(255), city VARCHAR(255))")
@@ -40,7 +40,7 @@ cursor.execute("CREATE TABLE IF NOT EXISTS olympic_info (olympics_game VARCHAR(2
 cursor.execute("CREATE TABLE IF NOT EXISTS olympic_events (olympics_game VARCHAR(255) PRIMARY KEY, event VARCHAR(255))")
 
 cursor.execute("CREATE TABLE IF NOT EXISTS results (olympics_game VARCHAR(255), event VARCHAR(255), \
-                athlete_id VARCHAR(255), medal VARCHAR(255), PRIMARY KEY ('olympics_game', 'event', 'athlete_id'))")     
+                athlete_id VARCHAR(255), medal VARCHAR(255), PRIMARY KEY (olympics_game, event, athlete_id))")     
 
 with open('athlete_events.csv', 'r') as file:
     reader = csv.DictReader(file)
@@ -65,7 +65,7 @@ with open('athlete_events.csv', 'r') as file:
         
         # Insert the data into the MySQL table
         cursor.execute('INSERT INTO athlete (athlete_id, name, height, weight, age, sex, country) VALUES (%s, %s, %s, %s, %s, %s, %s)', (athlete_id, name, height, weight, age, sex, country))
-        cursor.execute('INSERT INTO event (olympic_game, event_name, sport) VALUES (%s, %s, %s)', (olympics_game, event, sport))
+        cursor.execute('INSERT INTO event (olympic_game, event, sport) VALUES (%s, %s, %s)', (olympics_game, event, sport))
         cursor.execute('INSERT INTO olympic_info (olympic_game, season, year, city) VALUES (%s, %s, %s, %s)', (olympics_game, season, year, city))
         cursor.execute('INSERT INTO olympic_events (olympic_game, event) VALUES (%s, %s)', (olympics_game, event))
         cursor.execute('INSERT INTO results (olympic_game, event, athlete_id, medal) VALUES (%s, %s, %s, %s)', (olympics_game, event, athlete_id, medal))
