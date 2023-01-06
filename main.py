@@ -22,7 +22,7 @@ with open('population_by_country.csv', 'r') as file:
         population = row['population']
         
         # Insert the data into the MySQL table
-        cursor.execute('INSERT INTO table (country, population) VALUES (%s, %s)', (country, population))
+        cursor.execute('INSERT INTO population (country, population) VALUES (%s, %s)', (country, population))
 
 # Commit the changes to the database
 cnx.commit()
