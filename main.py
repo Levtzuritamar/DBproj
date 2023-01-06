@@ -65,10 +65,10 @@ with open('athlete_events.csv', 'r') as file:
         
         # Insert the data into the MySQL table
         cursor.execute('INSERT INTO athlete (athlete_id, name, height, weight, age, sex, country) VALUES (%s, %s, %s, %s, %s, %s, %s)', (athlete_id, name, height, weight, age, sex, country))
-        cursor.execute('INSERT INTO event (olympic_game, event, sport) VALUES (%s, %s, %s)', (olympics_game, event, sport))
-        cursor.execute('INSERT INTO olympic_info (olympic_game, season, year, city) VALUES (%s, %s, %s, %s)', (olympics_game, season, year, city))
-        cursor.execute('INSERT INTO olympic_events (olympic_game, event) VALUES (%s, %s)', (olympics_game, event))
-        cursor.execute('INSERT INTO results (olympic_game, event, athlete_id, medal) VALUES (%s, %s, %s, %s)', (olympics_game, event, athlete_id, medal))
+        cursor.execute('INSERT INTO event (olympics_game, event, sport) VALUES (%s, %s, %s)', (olympics_game, event, sport))
+        cursor.execute('INSERT INTO olympic_info (olympics_game, season, year, city) VALUES (%s, %s, %s, %s)', (olympics_game, season, year, city))
+        cursor.execute('INSERT INTO olympic_events (olympics_game, event) VALUES (%s, %s)', (olympics_game, event))
+        cursor.execute('INSERT INTO results (olympics_game, event, athlete_id, medal) VALUES (%s, %s, %s, %s)', (olympics_game, event, athlete_id, medal))
 
 
 # Commit the changes to the database
