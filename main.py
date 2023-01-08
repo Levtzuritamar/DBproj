@@ -49,6 +49,7 @@ with open('Olympic_Athlete_Bio.csv', 'r') as file:
 
         cursor.execute('INSERT INTO athlete (athlete_id, name, dob, height, weight, sex, country) VALUES (%s, %s, %s, %s, %s, %s, %s)', (athlete_id, name, dob, height, weight, sex, country))
         i += 1
+
 cursor.execute("CREATE TABLE IF NOT EXISTS event (event VARCHAR(255), edition_id VARCHAR(255), \
                 sport VARCHAR(255), isTeamSport VARCHAR(255), PRIMARY KEY (event))")
 
@@ -63,7 +64,7 @@ with open('Olympic_Athlete_Event_Results.csv', 'r') as file:
         sport = row['sport']
         isTeamSport = row['isTeamSport']
 
-        cursor.execute('INSERT INTO event (event, edition_id, sport, isTeamSport) VALUES (%s, %s, %s, %s)', (event, edition_id, sport, isTeamSport))
+        cursor.execute('INSERT IGNORE INTO event (event, edition_id, sport, isTeamSport) VALUES (%s, %s, %s, %s)', (event, edition_id, sport, isTeamSport))
 
 
 cursor.execute("CREATE TABLE IF NOT EXISTS olympic_info (edition_id VARCHAR(255) PRIMARY KEY, season VARCHAR(255), \
