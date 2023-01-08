@@ -114,7 +114,7 @@ with open('Olympic_Games_Medal_Tally.csv', 'r') as file:
         silver = row['silver']
         bronze = row['bronze']
 
-        cursor.execute('INSERT IGNORE INTO olympic_game_participants (country, edition_id, gold, silver, bronze) VALUES (%s, %s, %s, %s, %s)', (country, edition_id, gold, silver, bronze))
+        cursor.execute('INSERT IGNORE INTO medals (country, edition_id, gold, silver, bronze) VALUES (%s, %s, %s, %s, %s)', (country, edition_id, gold, silver, bronze))
 
 
 
