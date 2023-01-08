@@ -37,7 +37,7 @@ with open('Olympic_Athlete_Bio.csv', 'r') as file:
     reader = csv.DictReader(file)
     # Iterate through the rows of the CSV
     for row in reader:
-        if i > 30000:
+        if i > 5000:
             break
         athlete_id = row['athlete_id']
         name = row['name']
