@@ -9,5 +9,5 @@ cnx = mysql.connector.connect(
 )
 
 cursor = cnx.cursor()
-cursor.execute("SELECT E.sport FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY SUM(OGP.athlete_id)")
+cursor.execute("SELECT E.sport FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY SUM(OGP.athlete_id) DESC")
 print(cursor.fetchmany(size=10))
