@@ -29,9 +29,7 @@ with open('population_by_country.csv', 'r') as file:
 
 
 # Now, create a four different tables from the athele_events csv table
-cursor.execute("CREATE TABLE IF NOT EXISTS athlete (athlete_id VARCHAR(255), name VARCHAR(255), \
-                dob VARCHAR(255, height VARCHAR(255), weight VARCHAR(255), \
-                sex VARCHAR(255), country VARCHAR(255), PRIMARY KEY (athlete_id))")
+cursor.execute("CREATE TABLE IF NOT EXISTS athlete (athlete_id VARCHAR(255), name VARCHAR(255), dob VARCHAR(255, height VARCHAR(255), weight VARCHAR(255), sex VARCHAR(255), country VARCHAR(255), PRIMARY KEY (athlete_id))")
 
 with open('Olympic_Athlete_Bio.csv', 'r') as file:
     reader = csv.DictReader(file)
