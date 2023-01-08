@@ -31,11 +31,14 @@ with open('population_by_country.csv', 'r') as file:
 # Now, create a four different tables from the athele_events csv table
 cursor.execute("CREATE TABLE IF NOT EXISTS athlete (athlete_id VARCHAR(255), name VARCHAR(255), dob VARCHAR(255), height VARCHAR(255), weight VARCHAR(255), sex VARCHAR(255), country VARCHAR(255), PRIMARY KEY (athlete_id))")
 
+print("Creating table athlete...")
+i = 0
 with open('Olympic_Athlete_Bio.csv', 'r') as file:
     reader = csv.DictReader(file)
-    
     # Iterate through the rows of the CSV
     for row in reader:
+        if i > 30000:
+            break
         athlete_id = row['athlete_id']
         name = row['name']
         dob = row['born']
@@ -45,10 +48,11 @@ with open('Olympic_Athlete_Bio.csv', 'r') as file:
         country = row['country']
 
         cursor.execute('INSERT INTO athlete (athlete_id, name, dob, height, weight, sex, country) VALUES (%s, %s, %s, %s, %s, %s, %s)', (athlete_id, name, dob, height, weight, sex, country))
-
+        i += 1
 cursor.execute("CREATE TABLE IF NOT EXISTS event (event VARCHAR(255), edition_id VARCHAR(255), \
                 sport VARCHAR(255), isTeamSport VARCHAR(255), PRIMARY KEY (event))")
 
+print("Creating table event...")
 with open('Olympic_Athlete_Event_Results.csv', 'r') as file:
     reader = csv.DictReader(file)
     
@@ -65,6 +69,7 @@ with open('Olympic_Athlete_Event_Results.csv', 'r') as file:
 cursor.execute("CREATE TABLE IF NOT EXISTS olympic_info (edition_id VARCHAR(255) PRIMARY KEY, season VARCHAR(255), \
                 year VARCHAR(255), city VARCHAR(255))")
 
+print("Creating table olympic_info...")
 with open('Olympics_Games.csv', 'r') as file:
     reader = csv.DictReader(file)
     
@@ -81,6 +86,8 @@ with open('Olympics_Games.csv', 'r') as file:
 cursor.execute("CREATE TABLE IF NOT EXISTS olympic_game_participants (edition_id VARCHAR(255), event VARCHAR(255), athlete_id VARCHAR(255), \
                 medal VARCHAR(255), PRIMARY KEY (edition_id, event, athlete_id))")
 
+print("Creating table olympic_game_participants...")
+
 with open('Olympic_Athlete_Event_Results.csv', 'r') as file:
     reader = csv.DictReader(file)
     
@@ -96,6 +103,8 @@ with open('Olympic_Athlete_Event_Results.csv', 'r') as file:
 
 cursor.execute("CREATE TABLE IF NOT EXISTS medals (country VARCHAR(255), edition_id VARCHAR(255), gold VARCHAR(255), \
                 silver VARCHAR(255), bronze VARCHAR(255), PRIMARY KEY (country, edition_id))")
+
+print("Creating table medals...")
 
 with open('Olympic_Games_Medal_Tally.csv', 'r') as file:
     reader = csv.DictReader(file)
