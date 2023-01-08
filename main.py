@@ -10,8 +10,8 @@ cnx = mysql.connector.connect(
 )
 
 cursor = cnx.cursor()
-cursor.execute("DROP TABLE IF EXISTS population, athlete, event, olympic_info, olympic_events, results")
-cursor.execute("CREATE TABLE IF NOT EXISTS population (country VARCHAR(255) PRIMARY KEY, population VARCHAR(255))")
+cursor.execute("DROP TABLE IF EXISTS population, athlete, event, olympic_info, olympic_game_participants, medals")
+
 
 # First, create a table for population per country with country name as primary key
 cursor.execute("CREATE TABLE IF NOT EXISTS population (country VARCHAR(255) PRIMARY KEY, population VARCHAR(255))")
@@ -29,9 +29,9 @@ with open('population_by_country.csv', 'r') as file:
 
 
 # Now, create a four different tables from the athele_events csv table
-cursor.execute("CREATE TABLE IF NOT EXISTS athlete (athlete_id VARCHAR(255),  name VARCHAR(255), \
-                dob VARCHAR(255, height VARCHAR(255), weight VARCHAR(255) , \
-                    sex VARCHAR(255), country VARCHAR(255), PRIMARY KEY (athlete_id))")
+cursor.execute("CREATE TABLE IF NOT EXISTS athlete (athlete_id VARCHAR(255), name VARCHAR(255), \
+                dob VARCHAR(255, height VARCHAR(255), weight VARCHAR(255), \
+                sex VARCHAR(255), country VARCHAR(255), PRIMARY KEY (athlete_id))")
 
 with open('Olympic_Athlete_Bio.csv', 'r') as file:
     reader = csv.DictReader(file)
