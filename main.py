@@ -42,7 +42,7 @@ with open('Olympic_Athlete_Bio.csv', 'r') as file:
         height = row['height']
         weight = row['weight']
         sex = row['sex']
-        country = row['team']
+        country = row['country']
 
         cursor.execute('INSERT INTO athlete (athlete_id, name, dob, height, weight, sex, country) VALUES (%s, %s, %s, %s, %s, %s, %s)', (athlete_id, name, dob, height, weight, sex, country))
 
