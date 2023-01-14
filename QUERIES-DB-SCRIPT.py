@@ -28,10 +28,10 @@ df = pd.DataFrame(cursor.fetchmany(size=10), columns=["country","participants/po
 print(df)
 
 # Third query: Sports by number of participants- most and least
-cursor.execute("SELECT E.sport, SUM(DISTINCT OGP.athlete_id) as total_athletes FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY total_athletes ASC LIMIT 10")
+cursor.execute("SELECT E.sport, COUNT(DISTINCT OGP.athlete_id) as total_athletes FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event GROUP BY E.sport ORDER BY total_athletes ASC LIMIT 10")
 df = pd.DataFrame(cursor.fetchmany(size=10), columns=["sport","participants"])
 print(df)
-cursor.execute("SELECT E.sport, SUM(DISTINCT OGP.athlete_id) as total_athletes FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY total_athletes DESC LIMIT 10")
+cursor.execute("SELECT E.sport, COUNT(DISTINCT OGP.athlete_id) as total_athletes FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY total_athletes DESC LIMIT 10")
 df = pd.DataFrame(cursor.fetchmany(size=10), columns=["sport","participants"])
 print(df)
 
