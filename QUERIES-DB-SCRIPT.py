@@ -14,7 +14,7 @@ cursor = cnx.cursor(buffered = True)
 
 # Full test query:
 country_name = string.capwords(input("Select country you want information about: ")).strip()
-cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND athlete.country LIKE '{country_name}'")
+cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND athlete.country LIKE '{country_name}' GROUP BY athlete.country")
 print(cursor.fetchall())
 
 # First query: Countries with highest amount of participants
