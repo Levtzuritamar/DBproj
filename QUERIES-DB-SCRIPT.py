@@ -14,7 +14,7 @@ cursor = cnx.cursor(buffered = True)
 
 # Full test query:
 country_name = string.capwords(input("Select country you want information about: ")).strip()
-cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND athlete.country LIKE {country_name}")
+cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND athlete.country LIKE '{country_name}'")
 print(cursor.fetchall())
 
 # First query: Countries with highest amount of participants
@@ -27,8 +27,11 @@ cursor.execute("SELECT athlete.country, FORMAT((COUNT(DISTINCT olympic_game_part
 df = pd.DataFrame(cursor.fetchmany(size=10), columns=["country","participants/population %"])
 print(df)
 
-# Third query: Sports by number of participants
+# Third query: Sports by number of participants- most and least
 cursor.execute("SELECT E.sport, SUM(DISTINCT OGP.athlete_id) as total_athletes FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY total_athletes ASC LIMIT 10")
+df = pd.DataFrame(cursor.fetchmany(size=10), columns=["sport","participants"])
+print(df)
+cursor.execute("SELECT E.sport, SUM(DISTINCT OGP.athlete_id) as total_athletes FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY total_athletes DESC LIMIT 10")
 df = pd.DataFrame(cursor.fetchmany(size=10), columns=["sport","participants"])
 print(df)
 
