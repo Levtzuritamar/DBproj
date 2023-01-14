@@ -1,5 +1,6 @@
 import mysql.connector
 import pandas as pd
+import string
 
 cnx = mysql.connector.connect(
   host="mysqlsrv1.cs.tau.ac.il",
@@ -10,6 +11,11 @@ cnx = mysql.connector.connect(
 )
 
 cursor = cnx.cursor(buffered = True)
+
+# Full test query:
+country_name = string.capwords(input("Select country you want information about: ")).strip()
+cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND athlete.country LIKE {country_name}")
+print(cursor.fetchall())
 
 # First query: Countries with highest amount of participants
 cursor.execute("SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id  GROUP BY athlete.country ORDER BY total_participants DESC LIMIT 10")
