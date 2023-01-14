@@ -16,9 +16,11 @@ cursor.execute("SELECT athlete.country, FORMAT((COUNT(olympic_game_participants.
 print(cursor.fetchmany(size=10))
 
 # Second query: Sports by number of participants
-cursor.execute("SELECT E.sport FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY SUM(OGP.athlete_id) DESC LIMIT 10")
+cursor.execute("SELECT E.sport, SUM(OGP.athlete_id) as total_athletes FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY total_athletes ASC LIMIT 10")
 print(cursor.fetchmany(size=10))
 
 # Third query: Countries with the highest medal winnings and population ratio
 cursor.execute("WITH medals_count AS (SELECT medals.country, SUM(medals.gold + medals.silver + medals.bronze) AS total_medals, population FROM medals JOIN population ON medals.country = population.country GROUP BY country, population) SELECT country, FORMAT((total_medals / population)*100,3) AS medals_population_ratio FROM medals_count ORDER BY medals_population_ratio DESC LIMIT 10")
 print(cursor.fetchmany(size=10))
+
+# Fourth query: 
