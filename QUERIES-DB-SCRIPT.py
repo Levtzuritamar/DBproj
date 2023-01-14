@@ -12,10 +12,11 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
-# Full test query:
-country_name = string.capwords(input("Select country you want information about: ")).strip()
-cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND athlete.country LIKE '{country_name}' GROUP BY athlete.country")
-print(cursor.fetchall())
+# Full text query:
+country_name = string.capwords(input("Select country and get how many athletes they sent to the olympics: ")).strip()
+cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants,  FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND athlete.country LIKE '{country_name}' GROUP BY athlete.country")
+df = pd.DataFrame(cursor.fetchmany(size=10), columns=["country","participants"])
+print(df)
 
 # First query: Countries with highest amount of participants
 cursor.execute("SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id  GROUP BY athlete.country ORDER BY total_participants DESC LIMIT 10")
