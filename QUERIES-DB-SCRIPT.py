@@ -10,9 +10,13 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
+cursor.execute("SELECT athlete.country FROM athlete, population.country FROM population")
+print(cursor.fetchmany(size=10))
+
 # First query 
 cursor.execute("SELECT athlete.country, COUNT(olympic_game_participants.athlete_id) / population.population FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id JOIN population ON athlete.country = population.country GROUP BY athlete.country, population.population")
 print(cursor.fetchmany(size=10))
+
 
 #cursor.execute("SELECT C.country FROM population as C, olympic_game_participants as OGP, athlete as A WHERE A.country LIKE C.country AND OGP.athlete_id = A.athlete_id")
 
