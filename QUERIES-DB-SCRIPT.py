@@ -10,17 +10,20 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
+# First query: Countries with highest amount of participants
+cursor.execute("SELECT athlete.country, COUNT(olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id  GROUP BY athlete.country ORDER BY total_participants DESC LIMIT 10")
+print(cursor.fetchmany(size=10))
 
-# First query: Countries with the highest particiants and population ratio
+# Second query: Countries with the highest particiants and population ratio
 cursor.execute("SELECT athlete.country, FORMAT((COUNT(olympic_game_participants.athlete_id) / population.population)*100,3) AS participants_population_ratio FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id JOIN population ON athlete.country = population.country GROUP BY athlete.country, population.population ORDER BY participants_population_ratio DESC LIMIT 10")
 print(cursor.fetchmany(size=10))
 
-# Second query: Sports by number of participants
+# Third query: Sports by number of participants
 cursor.execute("SELECT E.sport, SUM(OGP.athlete_id) as total_athletes FROM olympic_game_participants as OGP, event AS E WHERE E.event = OGP.event Group by E.sport ORDER BY total_athletes ASC LIMIT 10")
 print(cursor.fetchmany(size=10))
 
-# Third query: Countries with the highest medal winnings and population ratio
-cursor.execute("WITH medals_count AS (SELECT medals.country, SUM(medals.gold + medals.silver + medals.bronze) AS total_medals, population FROM medals JOIN population ON medals.country = population.country GROUP BY country, population) SELECT country, FORMAT((total_medals / population)*100,3) AS medals_population_ratio FROM medals_count ORDER BY medals_population_ratio DESC LIMIT 10")
+# Fourth query: Countries with the highest medal winnings and population ratio
+cursor.execute("WITH medals_count AS (SELECT medals.country, SUM(medals.gold + medals.silver + medals.bronze) AS total_medals, population FROM medals JOIN population ON medals.country = population.country GROUP BY country, population) SELECT country, FORMAT((total_medals / population)*100,4) AS medals_population_ratio FROM medals_count ORDER BY medals_population_ratio DESC LIMIT 10")
 print(cursor.fetchmany(size=10))
 
-# Fourth query: 
+# Fifth query: Countries with higest medal winnings and participants ratio
