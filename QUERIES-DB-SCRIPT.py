@@ -10,7 +10,7 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
-cursor.execute("SELECT athlete.country FROM athlete, population.country FROM population")
+cursor.execute("SELECT athlete.country, population.country FROM athlete, population")
 print(cursor.fetchmany(size=10))
 
 # First query 
