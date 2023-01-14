@@ -12,7 +12,7 @@ cursor = cnx.cursor(buffered = True)
 
 
 # First query 
-cursor.execute("SELECT athlete.country, COUNT(olympic_game_participants.athlete_id) / population.population AS participants_population_ratio FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id JOIN population ON athlete.country = population.country GROUP BY athlete.country, population.population ORDER BY participants_population_ratio DESC")
+cursor.execute("SELECT athlete.country, FORMAT((COUNT(olympic_game_participants.athlete_id) / population.population)*100,3) AS participants_population_ratio FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id JOIN population ON athlete.country = population.country GROUP BY athlete.country, population.population ORDER BY participants_population_ratio DESC")
 print(cursor.fetchmany(size=10))
 
 
