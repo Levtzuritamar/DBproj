@@ -42,7 +42,7 @@ with open('Olympic_Athlete_Bio.csv', 'r') as file:
         height = row['height']
         weight = row['weight']
         sex = row['sex']
-        country = row['country']
+        country = row['country'].strip()
 
         cursor.execute('INSERT INTO athlete (athlete_id, name, dob, height, weight, sex, country) VALUES (%s, %s, %s, %s, %s, %s, %s)', (athlete_id, name, dob, height, weight, sex, country))
 
@@ -108,7 +108,7 @@ with open('Olympic_Games_Medal_Tally.csv', 'r') as file:
     
     # Iterate through the rows of the CSV
     for row in reader:
-        country = row['country']
+        country = row['country'].strip()
         edition_id = row['edition_id']
         gold = row['gold']
         silver = row['silver']
