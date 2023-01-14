@@ -10,11 +10,9 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
-cursor.execute("SELECT athlete.country, population.country FROM athlete, population")
-print(cursor.fetchmany(size=10))
 
 # First query 
-cursor.execute("SELECT athlete.country, COUNT(olympic_game_participants.athlete_id) / population.population FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id JOIN population ON athlete.country = population.country GROUP BY athlete.country, population.population")
+cursor.execute("SELECT athlete.country, COUNT(olympic_game_participants.athlete_id) / population.population AS participants_population_ratio FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id JOIN population ON athlete.country = population.country GROUP BY athlete.country, population.population ORDER BY participants_population_ratio DESC")
 print(cursor.fetchmany(size=10))
 
 
