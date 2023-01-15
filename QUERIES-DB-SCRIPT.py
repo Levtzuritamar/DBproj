@@ -12,8 +12,7 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
-cursor.execute("SELECT * FROM medals")
-print(cursor.fetchmany(size=100))
+cursor.execute("CREATE INDEX country ON olympic_game_participants (country)")
 
 # Full text query:
 country_name = string.capwords(input("Select country and get how many athletes they sent to the olympics: ")).strip()
