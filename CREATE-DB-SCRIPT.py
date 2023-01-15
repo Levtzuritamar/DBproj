@@ -117,6 +117,10 @@ with open('Olympic_Games_Medal_Tally.csv', 'r') as file:
         cursor.execute('INSERT IGNORE INTO medals (country, edition_id, gold, silver, bronze) VALUES (%s, %s, %s, %s, %s)', (country, edition_id, gold, silver, bronze))
 
 
+# Adding indexes
+cursor.execute("CREATE INDEX country ON athlete (country)")
+cursor.execute("CREATE INDEX sport ON event (sport)")
+
 
 # Commit the changes to the database
 cnx.commit()
