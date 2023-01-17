@@ -33,6 +33,7 @@ cursor.execute("CREATE TABLE IF NOT EXISTS medals (country VARCHAR(255), edition
 # Adding indexes
 cursor.execute("CREATE INDEX country ON athlete (country)")
 cursor.execute("CREATE INDEX sport ON event (sport)")
+cursor.execute("CREATE FULLTEXT INDEX athlete_name_index ON athlete (name)")
 
 
 # Commit the changes to the database
