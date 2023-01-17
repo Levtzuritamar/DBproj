@@ -12,17 +12,24 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
-cursor.execute("DROP INDEX country ON athlete")
-cursor.execute("CREATE FULLTEXT INDEX country ON athlete (country)")
+cursor.execute("CREATE INDEX athlete_name_index ON athlete (name)")
 
-# Full text query:
-country_name = string.capwords(input("Select country and get how many athletes they sent to the olympics: ")).strip()
-cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND MATCH(athlete.country) AGAINST ('{country_name}') GROUP BY athlete.country")
-df = pd.DataFrame(cursor.fetchmany(size=10), columns=["country","participants"])
+athlete_name = string.capwords(input("Favorite athlete: ")).strip()
+cursor.execute(f"SELECT * FROM athlete WHERE MATCH (name) AGAINST ('{athlete_name}' IN NATURAL LANGUAGE MODE)")
+df = pd.DataFrame(cursor.fetchmany(size=10), columns=["athlete_id", "name", "dob", "height", "weight", "sex", "country"])
 if df.empty:
-  print(f"No data on country {country_name}")
+  print(f"No data on athlete {athlete_name}")
 else:
   print(df)
+
+# Full text query:
+# country_name = string.capwords(input("Select country and get how many athletes they sent to the olympics: ")).strip()
+# cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND MATCH(athlete.country) AGAINST ('{country_name}') GROUP BY athlete.country")
+# df = pd.DataFrame(cursor.fetchmany(size=10), columns=["country","participants"])
+# if df.empty:
+#   print(f"No data on country {country_name}")
+# else:
+#   print(df)
 
 # First query: Countries with highest amount of participants
 cursor.execute("SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id  GROUP BY athlete.country ORDER BY total_participants DESC LIMIT 10")
