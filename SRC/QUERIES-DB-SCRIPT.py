@@ -12,6 +12,7 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
+cursor.execute("DROP INDEX country ON athlete")
 cursor.execute("CREATE FULLTEXT INDEX country ON athlete (country)")
 
 # Full text query:
