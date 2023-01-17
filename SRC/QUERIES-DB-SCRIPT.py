@@ -15,7 +15,7 @@ cursor = cnx.cursor(buffered = True)
 
 # Full text query:
 athlete_name = string.capwords(input("Favorite athlete: ")).strip()
-cursor.execute(f"SELECT * FROM athlete WHERE MATCH (name) AGAINST ('{athlete_name}') IN NATURAL LANGUAGE MODE)")
+cursor.execute(f"SELECT * FROM athlete WHERE MATCH (name) AGAINST ('{athlete_name}' IN NATURAL LANGUAGE MODE)")
 df = pd.DataFrame(cursor.fetchmany(size=100), columns=["athlete_id", "name", "dob", "height", "weight", "sex", "country"])
 if df.empty:
   print(f"No data on athlete {athlete_name}")
