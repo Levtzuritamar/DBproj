@@ -12,12 +12,11 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
-cursor.execute("DROP INDEX country_name ON athlete")
-cursor.execute("CREATE FULLTEXT INDEX country_name ON athlete (country)")
+cursor.execute("CREATE FULLTEXT INDEX country ON athlete (country)")
 
 # Full text query:
 country_name = string.capwords(input("Select country and get how many athletes they sent to the olympics: ")).strip()
-cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND MATCH(athlete.country_name) AGAINST ('{country_name}') GROUP BY athlete.country")
+cursor.execute(f"SELECT athlete.country, COUNT(DISTINCT olympic_game_participants.athlete_id) AS total_participants FROM olympic_game_participants JOIN athlete ON olympic_game_participants.athlete_id = athlete.athlete_id AND MATCH(athlete.country) AGAINST ('{country_name}') GROUP BY athlete.country")
 df = pd.DataFrame(cursor.fetchmany(size=10), columns=["country","participants"])
 if df.empty:
   print(f"No data on country {country_name}")
