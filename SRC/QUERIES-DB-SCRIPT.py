@@ -12,7 +12,9 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor(buffered = True)
 
-cursor.execute("CREATE INDEX athlete_name_index ON athlete (name)")
+cursor.execute("DROP INDEX athlete_name_index ON athlete")
+
+cursor.execute("CREATE FULLTEXT INDEX athlete_name_index ON athlete (name)")
 
 athlete_name = string.capwords(input("Favorite athlete: ")).strip()
 cursor.execute(f"SELECT * FROM athlete WHERE MATCH (name) AGAINST ('{athlete_name}' IN NATURAL LANGUAGE MODE)")
